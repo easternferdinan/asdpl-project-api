@@ -3,9 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"prod": "node ./bin/www",
-		"start": "nodemon ./bin/www",
-		"dev": "set DEBUG=asdpl-project-api:* & npm start"
+		"start": "node ./bin/www",
+		"dev": "set DEBUG=asdpl-project-api:* & nodemon ./bin/www"
 	},
 	"dependencies": {
 		"bcrypt": "^6.0.0",
