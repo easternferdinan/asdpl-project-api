@@ -62,11 +62,28 @@ router.post("/get-details", async function (req, res, next) {
 
         const [transactionData] = await db
 			.promise()
-			.query("SELECT transaksi.*, destinations.nama, destinations.durasi, destinations.kota, destinations.provinsi, destinations.image, destinations.harga, destinations.link_group_chat, destinations.nama_group_chat, destinations.nama_tour_guide, users.nama as nama_user, users.* FROM `transaksi` JOIN destinations ON transaksi.id_destinasi = destinations.id_destinasi JOIN users ON transaksi.id_user = users.id_user WHERE `id_transaksi` = ?", [transactionId]);
+			.query("SELECT transaksi.*, destinations.nama AS nama_destinasi, destinations.durasi, destinations.kota, destinations.provinsi, destinations.image, destinations.harga, destinations.link_group_chat, destinations.nama_group_chat, destinations.nama_tour_guide, users.nama as nama_user, users.* FROM `transaksi` JOIN destinations ON transaksi.id_destinasi = destinations.id_destinasi JOIN users ON transaksi.id_user = users.id_user WHERE `id_transaksi` = ?", [transactionId]);
 
         return res.status(201).json({
             status: 201,
             transactionData: transactionData[0],
+        });
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.post("/cancel-order", async function (req, res, next) {
+    try {
+        const transactionId = req.body.id_transaksi;
+
+        const [transactionData] = await db
+			.promise()
+			.query("DELETE FROM `transaksi` WHERE `id_transaksi` = ?", [transactionId]);
+
+        return res.status(201).json({
+            status: 201,
+            message: "Transaction deleted",
         });
     } catch (error) {
         console.log(error);
